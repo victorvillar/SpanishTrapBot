@@ -8,6 +8,7 @@ audioSelect.add('Yung Beef', 'Rapapa')
 
 hideBoard = types.ReplyKeyboardHide()  # if sent as reply_markup, will hide the keyboard
 
+# Detects new users
 def get_user_step(uid):
     if uid in userStep:
         return userStep[uid]
@@ -26,9 +27,10 @@ def listener(messages):
             # print the sent message to the console
             print (str(m.chat.first_name) + " [" + str(m.chat.id) + "]: " + m.text)
 
-# Creamos el bot
+# Create bot
 bot = telebot.TeleBot("186631270:AAG4DPa-38C_cQ3fNGqg5X28PvsSJWCecR0")
 bot.set_update_listener(listener)
+
 # Handlers
 
 @bot.message_handler(commands=['start'])
@@ -68,22 +70,21 @@ def msg_song_select(m):
         bot.send_message(cid, "No escribas basura si te doy un teclado...")
         bot.send_message(cid, "Por favor, vuelve a intentarlo")
 
+# Sends rapapa.mp3
 @bot.message_handler(commands=['rapapa'])
 def rapapa(message):
-    with open("rapapa.mp3","rb") as f:
+    with open("media/rapapa.mp3","rb") as f:
         bot.send_audio(message.chat.id , f)
 
+# Inline: NOT WORKING (Requires URL)
 @bot.inline_handler(lambda query: query.query == "rapa")
 def rapa(inline_query):
-    with open("rapapa.mp3","rb") as f:
+    with open("media/rapapa.mp3","rb") as f:
         bot.send_audio(message.chat.id , f)
 
-#    r = types.InlineQueryResultAudio('1',"http://ywjkg.yt-downloader.org/download.php?id=94c6583d5b0d1e38d746e658800e20fd","RAPAPA")
-#   bot.answer_inline_query(inline_query.id, [r])
-
-# Ignorar mensajes antiguos
+# Ignore previous messages
 bot.skip_pending = True
 
-# Ejecutar
+# Execute
 print("Running...")
 bot.polling()
