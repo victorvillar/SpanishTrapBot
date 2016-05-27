@@ -3,8 +3,10 @@ from telebot import types
 
 userStep = {} # so they won't reset every time the bot restarts
 knownUsers = []
-audioSelect = types.ReplyKeyboardMarkup(one_time_keyboard=True)  # create the image selection keyboard
+audioSelect = types.ReplyKeyboardMarkup(one_time_keyboard=True, resizeKeyboard=True)  # create the image selection keyboard
 audioSelect.add('Yung Beef', 'Rapapa')
+with open("./acm.token", "r") as TOKEN:
+    bot = telebot.TeleBot(TOKEN.read().strip())
 
 hideBoard = types.ReplyKeyboardHide()  # if sent as reply_markup, will hide the keyboard
 
@@ -28,7 +30,7 @@ def listener(messages):
             print (str(m.chat.first_name) + " [" + str(m.chat.id) + "]: " + m.text)
 
 # Create bot
-bot = telebot.TeleBot("186631270:AAG4DPa-38C_cQ3fNGqg5X28PvsSJWCecR0")
+bot = telebot.TeleBot(TOKEN)
 bot.set_update_listener(listener)
 
 # Handlers
